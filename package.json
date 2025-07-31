@@ -9,7 +9,9 @@
     "build": "tsc",
     "dev": "ts-node auth.ts",
     "lint": "eslint . --ext .ts,.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "simple-server": "ts-node simple-auth-server.ts",
+    "simple-client": "ts-node simple-client.ts"
   },
   "dependencies": {
     "@ably/chat": "^0.1.0",

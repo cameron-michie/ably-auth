@@ -75,11 +75,10 @@ const server = http.createServer(async (req, res) => {
 
   // Comprehensive capabilities for the user with proper colon-separated wildcards
   const capabilities: TokenCapabilities = {
-    // User's rooms list
+    // User's rooms list - only their specific roomslist
     [`roomslist:${userId}`]: ['publish', 'subscribe', 'history', 'object-subscribe', 'object-publish'],
 
-    // Profile channels
-    'profile:*': ['subscribe'],
+    // Profile channels - only user's own profile for full access
     [`profile:${userId}`]: ['publish', 'subscribe', 'history'],
 
     // 1:1 Chat rooms using colon-separated format (user1:user2)
@@ -88,10 +87,10 @@ const server = http.createServer(async (req, res) => {
     [`${userId}:*`]: ['publish', 'subscribe', 'history', 'presence'], // User is first participant
 
     // Global presence
-    'presence': ['presence', 'publish', 'subscribe'],
+    'presence': ['presence', 'publish', 'subscribe']
 
-    // Fallback for reading any other channels
-    '*': ['subscribe']
+    // Removed 'profile:*' wildcard to prevent unauthorized profile access
+    // Removed general '*' wildcard to prevent access to unauthorized channels
   };
 
   console.log(`[${requestId}] Capabilities:`, JSON.stringify(capabilities, null, 2));

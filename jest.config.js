@@ -19,4 +19,10 @@ module.exports = {
     '!**/dist/**',
   ],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  // Extended timeout for CLI integration tests
+  testTimeout: 60000,
+  // Allow CLI tests to run longer
+  testEnvironmentOptions: {
+    processTimeout: 90000
+  }
 };

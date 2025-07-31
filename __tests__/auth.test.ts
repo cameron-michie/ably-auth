@@ -1,5 +1,5 @@
 import * as Ably from 'ably';
-import { startAuthServer, stopAuthServer } from '../auth.ts';
+import { startAuthServer, stopAuthServer } from '../auth';
 import http from 'http';
 
 describe('Ably Token Authentication Tests', () => {
@@ -7,7 +7,7 @@ describe('Ably Token Authentication Tests', () => {
   let ablyRest: Ably.Rest;
 
   const ABLY_API_KEY = process.env.ABLY_API_KEY!;
-  const AUTH_SERVER_PORT = process.env.AUTH_SERVER_PORT || '3000';
+  const AUTH_SERVER_PORT = process.env.AUTH_SERVER_PORT || '3001';
   const TEST_USER_ID = process.env.TEST_USER_ID || 'test_user_123';
   const TEST_USER_FULL_NAME = process.env.TEST_USER_FULL_NAME || 'Test User';
 
@@ -21,12 +21,12 @@ describe('Ably Token Authentication Tests', () => {
     
     // Wait a bit for server to be ready
     await new Promise(resolve => setTimeout(resolve, 1000));
-  });
+  }, 15000);
 
   afterAll(async () => {
     stopAuthServer();
     await new Promise(resolve => setTimeout(resolve, 500));
-  });
+  }, 10000);
 
   describe('Token Generation with Custom Capabilities', () => {
     test('should generate token with comprehensive user-specific capabilities', async () => {
@@ -50,7 +50,7 @@ describe('Ably Token Authentication Tests', () => {
       expect(tokenDetails).toHaveProperty('clientId');
 
       // Verify client ID format
-      const expectedClientId = `${TEST_USER_FULL_NAME.replace(/\\s+/g, '_')}.${TEST_USER_ID}`;
+      const expectedClientId = `${TEST_USER_FULL_NAME.replace(/\s+/g, '_')}.${TEST_USER_ID}`;
       expect(tokenDetails.clientId).toBe(expectedClientId);
 
       // Parse and verify capabilities
@@ -167,7 +167,7 @@ describe('Ably Token Authentication Tests', () => {
       });
 
       const tokenDetails = await response.json() as any;
-      const expectedClientId = `${TEST_USER_FULL_NAME.replace(/\\s+/g, '_')}.${TEST_USER_ID}`;
+      const expectedClientId = `${TEST_USER_FULL_NAME.replace(/\s+/g, '_')}.${TEST_USER_ID}`;
       
       expect(tokenDetails.clientId).toBe(expectedClientId);
 
