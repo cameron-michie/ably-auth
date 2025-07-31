@@ -99,7 +99,7 @@ const server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
     // Define capabilities - user can publish/subscribe to their own roomslist
     const capabilities: TokenCapabilities = {
       [`roomslist:${userId}`]: ['publish', 'subscribe', 'history'],
-      'presence': ['publish', 'subscribe']
+      'presence': ['publish', 'subscribe', 'presence']
     };
 
     // Create token request parameters

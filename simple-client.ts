@@ -88,6 +88,13 @@ async function main(): Promise<void> {
     console.log(`✅ Message published to channel: ${channelName} `);
     console.log(`   Message: ${JSON.stringify(messageData, null, 2)} `);
 
+    console.log('\n🤝 Step 4: Joining presence set for "presence" channel...');
+
+    // Get the presence channel and enter the set
+    const presenceChannel = ably.channels.get('presence');
+    await presenceChannel.presence.enter();
+    console.log('✅ Successfully entered presence set.');
+
     console.log('\n🎉 All done! Closing connection...');
     ably.close();
 
